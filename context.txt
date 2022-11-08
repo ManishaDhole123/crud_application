@@ -1,0 +1,116 @@
+compnenF
+ 
+import react from 'react';
+import {UserContextone  ,UserContexttwo} from '../ComponentD'
+ fuction ComponentF(){
+return (
+<div>
+<UserContext.Consumer>
+{
+firstuser =>{
+return (
+<UserContexttwo.Consumer>{
+seconduser =>{
+return(
+<div>
+user context value = {firstuser } {seconduser}
+<div/>
+
+)
+}}
+
+<UserContexttwo.Consumer/>
+)
+}
+}
+<UserContext.Consumer/>
+</div>
+)
+
+}
+export default ComponentF
+
+
+
+
+
+componentE
+import react from 'react';
+import {useContext} from 'react'
+import {UserContextone  ,UserContexttwo} from '../ComponentD'
+
+fuction ComponentE(){
+const userone = useContext(UserContextone)
+const usertwo = useContext(UserContexttwo)
+return (
+<div>
+{userone}-{usetwo }
+</div>
+
+)
+
+}
+export default ComponentE
+
+
+ComponentC
+import react from 'react';
+ fuction ComponentC(){
+return (
+<div>
+<componentE/>
+</div>
+
+)
+
+}
+export default ComponentC   
+
+..............................................
+
+
+import react from 'react';
+importComonentC from './component/componentC'
+
+
+export const UserContextone= React.createContext()
+
+export const UserContexttwo = React.createContext()
+
+fuction ComponentD(){
+
+return (
+<div>
+<UserContextone.Provider value={'jack'}>
+<UserContexttwo.Provider value={'and Jill'}>
+<ComponentC/>
+<userContexttwo.Provider  >
+<userContextone.Provider  >
+</div>
+
+)
+
+}
+export default ComponentD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
