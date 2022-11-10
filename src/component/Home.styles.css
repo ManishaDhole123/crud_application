@@ -1,0 +1,117 @@
+
+
+.header {
+  background-color: rgb(92, 103, 103) !important;
+  border: 3px solid transparent;
+  text-align: center !important;
+}
+
+.textheader{
+  color: rgb(249, 245, 245);
+  font-size: 20px !important;
+ 
+}
+
+
+.section-content {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 15px;
+}
+
+.add-employee-btn {
+  float: right;
+  margin-bottom: 5px;
+}
+
+/* .navbarHome{
+  color: red;
+  margin-top: 2px;
+  margin-left: 80px;
+
+} */
+.addbutton{
+ margin-left: 900px !important;
+ font-size: 12px !important;
+ background-color: rgb(92, 103, 103) !important;
+ color:rgb(249, 245, 245) !important;
+
+font-weight: 400 !important ;
+
+}
+
+.navbarAdd{
+  color: rgb(179, 126, 126);
+margin-right: 40px;
+
+}
+
+
+
+
+
+/* /..................................................................... */
+
+@media all and (max-width:767px) {
+  .maincontainer{
+     font-size: 50px;
+     line-height: 92px;
+ 
+  }
+ 
+ 
+ }
+ 
+ @media all and (max-width:767px) {
+     .maincontainer2{
+        font-size: 50px;
+        line-height: 92px;
+     }
+    
+    
+    }
+ 
+    @media all and (max-width:1024px) {
+     .container {
+        font-size: 82px;
+        line-height: 92px;
+     }
+    
+    
+    }
+ 
+    @media all and (max-width:1024px) {
+     .homecontainer {
+        font-size: 90px;
+        line-height: 90px;
+     }
+    
+    
+    }
+ 
+    @media all and (min-width:1224px) {
+     .homecontainer1 {
+        font-size: 60px;
+        line-height: 92px;
+     }
+    
+    
+    }
+ 
+    @media all and (min-width:1224px) {
+     .home-pageone {
+        font-size: 60px;
+        line-height: 92px;
+     }
+    
+    
+    }
+ 
+    @media all and (max-width:767px) {
+     .home-pagetwo {
+        font-size: 50px;
+        line-height: 92px;
+     }
+    
+    
+    }
