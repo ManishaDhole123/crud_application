@@ -39,9 +39,10 @@ const EditStudent = (props: Props) => {
     const updatedData: IStudent = {
     id : data.id,
       firstName: firstName,
+
       lastName: lastName,
       email: email,
-      // phone:"",
+       phone:"",
     };
    
     onUpdateClickHnd(updatedData);

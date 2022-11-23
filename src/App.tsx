@@ -1,18 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
 
-import Home from './component/Home';
-import AddStudent from './component/AddStudent';
+import Navigation from './navBar';
+import RouteOne from './Routes';
+import WebSnackbar from './snackBar';
+import { connect } from 'react-redux';
+import { userState } from './component/Student.type';
 
+const mapState = (state: userState) => ({
+  action:state.action
+}
+) 
 
-function App() {
+function App(props:any) {
   return (
     <div className="App">
-    <Home />
-    {/* <AddStudent/> */}
-    {/* <NavBar/> */}
+      <Navigation />
+      <RouteOne />
+      {props &&  <WebSnackbar  key={Math.random()} message={props.action.msg} openStatus ={props.action.open} /> }
+      
     </div>
   );
 }
 
-export default App;
+export default connect(mapState) (App);

@@ -1,55 +1,93 @@
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { Box, Button, Grid, Paper, TextField, Typography } from "@material-ui/core";
 import { IStudent, PageEnum } from './Student.type';
 import { Container } from '@mui/material';
 import { useFormik } from 'formik';
-import {schemaValidation } from './Validationschema';
-import StudentList from './StudentList';
+import { schemaValidation } from './Validationschema';
+import LocalStorage from '../LocalStorage';
+import { addStudent, updateStudent } from '../redux/actionCreater';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 // import "./Home.styles.css"
+import * as Styled from './StyledComponent';
 
 
-let initialValues : IStudent = {
-  id:0,
-  firstName:'',
-  lastName:'',
-  email:'',
-  // phone:''
+
+let initialValues: IStudent = {
+  id: 0,
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone:''
 }
 
-type Props = {
-  onBackButtonhandler : () => void
-  studentValues : IStudent [];
-  setStudentValues: (data : IStudent []) => void;
-  
-}
-const AddStudent = (props:Props) => {
+// type Props = {
+//   onBackButtonhandler: () => void
+//   studentValues: IStudent[];
+//   setStudentValues: (data: IStudent[]) => void;
+
+// }
+
+
+const AddStudent = () => {
   //  const [studentValues, setStudentValues] = useState([] as IStudent[]);
 
-   const [addStudent, setAddStudent] = useState(PageEnum.list)
+  const { id }: any = useParams();
+  //const history = useHistory();
+  const navigate = useNavigate();
+  const LocalStorage1 = new LocalStorage();
+  const values = LocalStorage1.getData('store').userStates;
+  const dispatch: Dispatch<any> = useDispatch();
 
-  const {studentValues ,setStudentValues, onBackButtonhandler } = props;
+  let initialState: IStudent = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone:''
 
-  const handler = () => {
-    setAddStudent(PageEnum.add)
-}
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues, 
-    validationSchema: schemaValidation ,
-    onSubmit: (values, action) => {
-      values.id = studentValues.length + 1;
-      setStudentValues([...studentValues,values])
-      // onSubmitClickHnd(values);
-      console.log(
-        "valuesonee",
-        studentValues
-      );
-      action.resetForm();
+  }
+
+  if ((parseInt(id) !== 0 || id !== null) && values && values.length) {
+    let index = values.findIndex((i: any) => i.id === parseInt(id));
+    if (index !== -1) {
+      initialState = {
+        id: id,
+        firstName: values[index].firstName,
+        lastName: values[index].lastName,
+        email: values[index].email,
+        phone: values[index].phone,
+
+      }
+
+    }
+  }
+
+  //  const [addStudent, setAddStudent] = useState(PageEnum.list)
+
+  // const { studentValues, setStudentValues, onBackButtonhandler } = props;
+
+  //   const handler = () => {
+  //     setAddStudent(PageEnum.add)
+  // }
+  const userForm = useFormik({
+
+    initialValues: initialState,
+    validationSchema: schemaValidation,
+
+    onSubmit: values1 => {
+      if (id === undefined)
+        dispatch(addStudent(values1))
+      else
+        dispatch(updateStudent(values1))
+       navigate('/userList');
+      // onBackButtonhandler();
+
     },
+
   });
-console.log(
-  "errors",
-  errors
-);
+  console.log(values, "ppp");
+
 
 
   // const onSubmitBtnClickHnd = (e: any) => {
@@ -67,79 +105,95 @@ console.log(
 
   return (
     <>
-    <Container >
-    <Box  sx={{ p: 2, border: '1px solid grey' }} width={600} height={500} >
-     
-          <Typography >
+      <Container >
+        <Box sx={{ p: 2, border: '1px solid grey' }} width={600} height={500} >
+          
+
+          <Styled.textOne >
             Student Registration Form
-          </Typography>
-          <form onSubmit={handleSubmit}>   
-          <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
+          </Styled.textOne  >
+       
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="firstName"
+                  name="firstName"
+                  label="First Name"
+                  fullWidth
+                  margin="dense"
+                  onChange={userForm.handleChange}
+                  value={userForm.values.firstName}
+                />
+                <Typography variant="inherit" color="textSecondary">
+                  {userForm.errors.firstName ? <div>{userForm.errors.firstName}</div> : null}
+                </Typography>
+
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="lastName"
+                  name="lastName"
+                  label="Last Name"
+                  fullWidth
+                  margin="dense"
+                  onChange={userForm.handleChange}
+                  value={userForm.values.lastName}
+                />
+                <Typography variant="inherit" color="textSecondary">
+                  {userForm.errors.lastName ? <div>{userForm.errors.lastName}</div> : null}
+                </Typography>
+
+              </Grid>
+              <Grid item xs={12} sm={6}>
               <TextField
                 required
-                id="firstName"
-                name="firstName"
-                label="First Name"
+                id="phone"
+                name="phone"
+                label="Contact"
+                type="number"
                 fullWidth
                 margin="dense"
-                value={values.firstName}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                onChange={userForm.handleChange}
+                value={userForm.values.phone}
               />
-                {errors.firstName && touched.firstName ? (
-                      <p className="form-error">{errors.firstName}</p>
-                    ) : null}
-             
+              <Typography variant="inherit" color="textSecondary">
+              {userForm.errors.phone ? <div>{userForm.errors.phone}</div> : null}
+              </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                required
-                id="lastName"
-                name="lastName"
-                label="Last Name"
-                fullWidth
-                margin="dense"
-                value={values.lastName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              {errors.lastName && touched.lastName ? (
-                      <p className="form-error">{errors.lastName}</p>
-                    ) : null}
-             
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="email"
+                  name="email"
+                  label="Email"
+                  fullWidth
+                  margin="dense"
+                  onChange={userForm.handleChange}
+                  value={userForm.values.email}
+                />
+                <Typography variant="inherit" color="textSecondary">
+                  {userForm.errors.email ? <div>{userForm.errors.email}</div> : null}
+                </Typography>
+
+              </Grid>
+
+              <div>
+                {/* <input type="button" value="Back" onClick={onBackButtonhandler} /> */}
+                {/* <input type="submit" value="Add Student"  style={{margin:"20px"}}  /> */}
+                <Styled.buttonStyle variant="contained"  onClick={() => userForm.handleSubmit()}>
+                  {userForm.values.id ? 'Update' : 'Add one User'}
+                </Styled.buttonStyle >
+              </div>
+
             </Grid>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                required
-                id="email"
-                name="email"
-                label="Email"
-                fullWidth
-                margin="dense"
-             
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-               {errors.email && touched.email ? (
-                      <p className="form-error">{errors.email}</p>
-                    ) : null}
-            </Grid>
-          
-             <div>       
-               <input type="button" value="Back"  onClick={onBackButtonhandler}/>
-               <input type="submit" value="Add Student"  style={{margin:"20px"}}  />
-               {/* <Button type="submit">Submit</Button> */}
-             </div>
-          
-        </Grid>
-        </form>
-{/*        
+       
+          {/*        
         <StudentList studentValues={studentValues} tableName={" Student List"} /> */}
-       </Box>
-        
-    </Container>
+        </Box>
+
+      </Container>
     </>
   );
 }

@@ -13,7 +13,7 @@ describe('<StatementsListContainer/>', () => {
     it('should shallow render without crashing', () => {
         const data:IStudent = {
           id :3,
-          // phone:"",
+          phone:"",
           firstName: "",
           lastName: "",
           email: "",    

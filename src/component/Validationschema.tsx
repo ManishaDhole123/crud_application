@@ -14,5 +14,5 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
           .email('Invalid email address')
           .required('Required')
           ,
-        // phone:Yup.string().required().matches(phoneRegExp,"Enter valid phone number"),
+        phone:Yup.string().required().matches(phoneRegExp,"Enter valid phone number"),
       })
